@@ -17,11 +17,18 @@ import datetime as dt
 
 
 app = Flask(__name__)
+
+@app.route("/")
+
+def index():
+    return jsonify("hello World")
+
+    
 @app.route('/predict', methods = ['GET','POST'])
 
 
 def predict():
-    df = pd.read_excel(r"C:\Users\10120832\Downloads\MG Data for insight.xlsx", sheet_name = 'Sheet1')
+    df = pd.read_excel("MG Data for insight.xlsx", sheet_name = 'Sheet1')
     df["Posting Date"] = pd.to_datetime(df["Posting Date"])
     dt_ticket_count = df.groupby(["Posting Date"]).agg({"Status" : "count"})
     Description = df.groupby('Posting Date')['Description'].value_counts().unstack().fillna(0).astype(int)
