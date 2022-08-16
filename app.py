@@ -18,10 +18,10 @@ import datetime as dt
 
 app = Flask(__name__)
 
-@app.route("/")
+#@app.route("/")
 
-def index():
-    return jsonify("hello World")
+#def index():
+#    return jsonify("hello World")
 
     
 @app.route('/predict', methods = ['GET','POST'])
