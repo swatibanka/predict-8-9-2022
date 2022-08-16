@@ -18,13 +18,13 @@ import datetime as dt
 
 app = Flask(__name__)
 
-@app.route("/")
+#@app.route("/")
 
-def index():
-    return jsonify("hello World")
+#def index():
+#    return jsonify("hello World")
 
     
-@app.route('/predict', methods = ['GET','POST'])
+@app.route('/', methods = ['GET','POST'])
 
 
 def predict():
@@ -63,7 +63,7 @@ def predict():
         eval_set=[(X_train, y_train), (X_test, y_test)],
         early_stopping_rounds=50,
            verbose=False)
-    y_pred = reg.predict(X_test)
+    y_pred = reg.predict(X_test) # 1st model completed
     y_pred = pd.Series(reg.predict(X_test), index=X_test.index)
     distributed_x = Refined_data.iloc[:,::-1]
     X_tr, X_test_distributed, y_tr, y_te = train_test_split(distributed_x, y, test_size = 0.25, random_state = 20)
@@ -78,7 +78,7 @@ def predict():
     y.drop(["Change Request","Service Request"], inplace = True, axis = 1)
     X_train_catg, X_test_catg, y_train_catg, y_test_catg = train_test_split(X, y, test_size = 0.25, random_state = 20)
     regr = MultiOutputRegressor(Ridge(random_state=123)).fit(np.array(X_train_catg).reshape(595,1), y_train_catg)
-    y_pred_catg = regr.predict(np.array(X_test_catg).reshape(199,1))
+    y_pred_catg = regr.predict(np.array(X_test_catg).reshape(199,1))# 2nd predict model
     y_pred = pd.DataFrame(y_pred_catg)
     Categories = df[df['Description'] == "High"]
     Categories2 = df[df['Description'] == "Very High"]
